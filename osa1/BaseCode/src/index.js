@@ -5,7 +5,7 @@ const Header = (props) => {
   return (
     <div>
       {" "}
-      <h1>{props.header}</h1>
+      <h1> {props.header} </h1>{" "}
     </div>
   );
 };
@@ -15,30 +15,48 @@ const Statistics = (props) => {
   const bad = props.bad;
   const neutral = props.neutral;
   const good = props.good;
-  /*  if (props.all === 0) {
+  const average = isNaN((-props.bad + props.good) / props.all)
+    ? 0
+    : (-props.bad + props.good) / props.all;
+  const positive = isNaN(good / all) ? 0 : good / all;
+  if (props.all === 0) {
     return <div>No feedback given</div>;
-  } */
+  }
 
   return (
     <div>
-      <Viewi type={"good"} count={good} />
-      <Viewi type={"neutral"} count={neutral} />
-      <Viewi type={"bad"} count={bad} />
+      <table>
+        <tbody>
+          <StatisticLine texti={"good"} vaule={good} />
+          <StatisticLine texti={"neutral"} vaule={neutral} />
+          <StatisticLine texti={"bad"} vaule={bad} />
+          <StatisticLine texti={"average"} vaule={average} />
+          <StatisticLine texti={"positive"} vaule={positive} />
+        </tbody>
+      </table>
     </div>
   );
 };
 
-const Viewi = (props) => {
+const StatisticLine = (props) => {
+  var end = " ";
+  if (props.texti === "positive") {
+    end = " %";
+  }
   return (
-    <div>
-      <p>
-        {props.type} {props.count}
-      </p>
-    </div>
+    <tr>
+      <td>{props.texti}</td>
+      <td>
+        {props.vaule}
+        {end}
+      </td>
+    </tr>
   );
 };
 
-const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
+const Button = ({ onClick, text }) => (
+  <button onClick={onClick}> {text} </button>
+);
 
 const App = (props) => {
   const [good, setGood] = useState(0);
@@ -72,8 +90,8 @@ const App = (props) => {
         <Button onClick={handleNeutralClick} text="neutral" />
         <Button onClick={handleBadClick} text="bad" />
         <Header header="startistics" />
-        <Statistics bad={bad} neutral={neutral} good={good} all={all} />
-      </div>
+        <Statistics bad={bad} neutral={neutral} good={good} all={all} />{" "}
+      </div>{" "}
     </div>
   );
 };
